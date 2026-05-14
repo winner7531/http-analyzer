@@ -1,6 +1,6 @@
 import socket
 from urllib.parse import unquote, parse_qs, urlparse
-
+import base64
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -38,7 +38,7 @@ for line in lines[1:]:
         headers[key.strip()] = value.strip()
 print(headers)
 # extract cookie header from headers
-cookie_headers = headers.get("Cookie")
+cookie_headers = headers.get("Set-Cookie")
 print(cookie_headers)
 
 # split different cookies
@@ -100,9 +100,9 @@ for key, values in params.items():
 for key, values in params.items():
     for v in values:
         padded = v + "=" * (-len(v) % 4)
-
+        print(f"testing value: {repr(v)}")
         try:
-            decoded = base64.b64decode(padded, validate=True)
+            decoded = base64.b64decode(padded)
 
             if len(decoded) == 0:
                 print(f"{v[:20]:<20} → empty decode")
@@ -115,6 +115,8 @@ for key, values in params.items():
                 print(f"{v[:20]:<20} → DETECTED → {decoded.decode('utf-8', errors='replace')}")
             else:
                 print(f"{v[:20]:<20} → binary/random Base64")
-
-        except Exception:
+                print(repr(v))
+        except Exception as e:
             print(f"{v[:20]:<20} → invalid Base64")
+            
+            print(e)
