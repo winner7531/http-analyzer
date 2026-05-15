@@ -35,7 +35,7 @@ curl "http://localhost:8080/test?token=c2hpa2hhcg=="
 
 ---
 
-# 6. Example Output
+# Example Output
 
 Example:
 
@@ -50,7 +50,7 @@ c2hpa2hhcg== → DETECTED → shikhar
 ---
 
 ```markdown id="y5p2wd"
-#7. Future Improvements
+# Future Improvements
 
 - POST body parsing
 - JWT detection
